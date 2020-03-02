@@ -103,7 +103,7 @@ public class Simulator {
 		view = new FieldDisplay(p, this.field, x, y, display_width, display_height);
 		view.setColor(Rabbit.class, p.color(155, 155, 155));
 		view.setColor(Fox.class, p.color(200, 0, 255));
-		view.setColor(Shrek.class, p.color(0, 200, 255));
+		view.setColor(Shrek.class, p.color(0, 200, 0));
 
 
 		graph = new Graph(p, 100, p.height - 30, p.width - 50, p.height - 110, 0,
@@ -114,7 +114,7 @@ public class Simulator {
 		graph.ylabel = "Pop.\t\t";
 		graph.setColor(Rabbit.class, p.color(155, 155, 155));
 		graph.setColor(Fox.class, p.color(200, 0, 255));
-		graph.setColor(Shrek.class, p.color(0, 200, 255));
+		graph.setColor(Shrek.class, p.color(0, 200, 0));
 	}
 
 	public void setGUI(PApplet p) {
