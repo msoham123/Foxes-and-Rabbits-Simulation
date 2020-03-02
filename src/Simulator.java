@@ -31,10 +31,14 @@ public class Simulator {
 	// The probability that a rabbit will be created in any given grid position.
 	private static final double RABBIT_CREATION_PROBABILITY = 0.08;
 
+	// The probability that a Shrek will be created in any given grid position.
+	private static final double SHREK_CREATION_PROBABILITY = 0.1;
+
 	// Lists of animals in the field. Separate lists are kept for ease of
 	// iteration.
 	private ArrayList<Rabbit> rabbitList;
 	private ArrayList<Fox> foxList;
+	private ArrayList<Shrek> shrekList;
 
 	// The current state of the field.
 	private Field field;
@@ -82,6 +86,7 @@ public class Simulator {
 
 		rabbitList = new ArrayList<Rabbit>();
 		foxList = new ArrayList<Fox>();
+		shrekList = new ArrayList<Shrek>();
 		field = new Field(width, height);
 		updatedField = new Field(width, height);
 		stats = new FieldStats();
@@ -98,15 +103,18 @@ public class Simulator {
 		view = new FieldDisplay(p, this.field, x, y, display_width, display_height);
 		view.setColor(Rabbit.class, p.color(155, 155, 155));
 		view.setColor(Fox.class, p.color(200, 0, 255));
-		
+		view.setColor(Shrek.class, p.color(0, 200, 255));
+
+
 		graph = new Graph(p, 100, p.height - 30, p.width - 50, p.height - 110, 0,
 				0, 500, field.getHeight() * field.getWidth());
 		
-		graph.title = "Fox and Rabbit Populations";
+		graph.title = "Fox, Rabbit, and Shrek Populations";
 		graph.xlabel = "Time";
 		graph.ylabel = "Pop.\t\t";
 		graph.setColor(Rabbit.class, p.color(155, 155, 155));
 		graph.setColor(Fox.class, p.color(200, 0, 255));
+		graph.setColor(Shrek.class, p.color(0, 200, 255));
 	}
 
 	public void setGUI(PApplet p) {
@@ -173,6 +181,23 @@ public class Simulator {
 		// Add new born foxList to the main list of foxList.
 		foxList.addAll(babyFoxStorage);
 
+		//Create new list for newborn shrekList
+
+		ArrayList<Shrek> babyShrekStorage = new ArrayList<Shrek>();
+
+		// Loop through Shreks; let each run around.
+		for (int i = 0; i < shrekList.size(); i++) {
+			Shrek shrek = shrekList.get(i);
+			shrek.hunt(field, updatedField, babyShrekStorage);
+			if (!shrek.isAlive()) {
+				shrekList.remove(i);
+				i--;
+			}
+		}
+
+		// Add new born foxList to the main list of foxList.
+		shrekList.addAll(babyShrekStorage);
+
 		// Swap the field and updatedField at the end of the step.
 		Field temp = field;
 		field = updatedField;
@@ -197,6 +222,7 @@ public class Simulator {
 		step = 0;
 		rabbitList.clear();
 		foxList.clear();
+		shrekList.clear();
 		field.clear();
 		updatedField.clear();
 		initializeBoard(field);
@@ -228,8 +254,12 @@ public class Simulator {
 					Rabbit rabbit = new Rabbit(true);
 					rabbit.setLocation(col, row);
 					rabbitList.add(rabbit);
-
 					field.put(rabbit, col, row);
+				} else if (rand.nextDouble() <= SHREK_CREATION_PROBABILITY){
+					Shrek shrek = new Shrek(true);
+					shrek.setLocation(col, row);
+					shrekList.add(shrek);
+					field.put(shrek, col, row);
 				}
 			}
 		}
