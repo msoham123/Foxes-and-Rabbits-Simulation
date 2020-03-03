@@ -57,7 +57,7 @@ public class Field implements Serializable {
 	/**
 	 * Represent a field of the given dimensions.
 	 * 
-	 * @param depth
+//	 * @param depth
 	 *            The depth of the field.
 	 * @param width
 	 *            The width of the field.
@@ -86,7 +86,7 @@ public class Field implements Serializable {
 	 * Place an animal at the given location. If there is already an animal at
 	 * the location it will be lost.
 	 * 
-	 * @param animal
+//	 * @param animal
 	 *            The animal to be placed.
 	 * @param row
 	 *            Row coordinate of the location.
@@ -109,8 +109,8 @@ public class Field implements Serializable {
 	/**
 	 * Place an animal at the given location. If there is already an animal at
 	 * the location it will be lost.
-	 * 
-	 * @param animal
+	 *
+//	 * @param animal
 	 *            The animal to be placed.
 	 * @param location
 	 *            Where to place the animal.

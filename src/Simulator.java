@@ -265,6 +265,7 @@ public class Simulator {
 		}
 		Collections.shuffle(rabbitList);
 		Collections.shuffle(foxList);
+		Collections.shuffle(shrekList);
 	}
 
 	private boolean isViable() {
@@ -345,6 +346,9 @@ public class Simulator {
 	private void setFoxList(ArrayList<Fox> newFoxesList) {
 		foxList = newFoxesList;
 	}
+
+
+	private void setShrekList(ArrayList<Shrek> newShrekList) {shrekList = newShrekList; }
 
 	// Perform an action when the mouse was clicked.
 	// parameters are the x, y screen coordinates the user clicked on.

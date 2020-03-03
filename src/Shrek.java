@@ -11,11 +11,11 @@ public class Shrek implements Serializable {
 	// Characteristics shared by all foxes (static fields).
 	private static final int BREEDING_AGE = 3;
 	// The age to which a shrek can live.
-	private static final int MAX_AGE = 50;
+	private static final int MAX_AGE = 100;
 	// The likelihood of a shrek breeding.
 	private static final double BREEDING_PROBABILITY = 0.15;
 	// The maximum number of births.
-	private static final int MAX_LITTER_SIZE = 6;
+	private static final int MAX_LITTER_SIZE = 10;
 	// The food value of a single rabbit. In effect, this is the
 	// number of steps a shrek can go before it has to eat again.
 	private static final int RABBIT_FOOD_VALUE = 6;
