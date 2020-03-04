@@ -16,7 +16,7 @@ public class Rabbit implements Serializable {
     private static final int MAX_AGE = 30;
     
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.06;
+    private static final double BREEDING_PROBABILITY = 0.6; //0.06
     
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;

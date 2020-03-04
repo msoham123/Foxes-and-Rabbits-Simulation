@@ -13,7 +13,7 @@ public class Shrek implements Serializable {
 	// The age to which a shrek can live.
 	private static final int MAX_AGE = 100;
 	// The likelihood of a shrek breeding.
-	private static final double BREEDING_PROBABILITY = 0.15;
+	private static final double BREEDING_PROBABILITY = 0.05; //0.15
 	// The maximum number of births.
 	private static final int MAX_LITTER_SIZE = 10;
 	// The food value of a single rabbit. In effect, this is the
