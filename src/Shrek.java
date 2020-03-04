@@ -7,13 +7,13 @@ import java.util.List;
  * @author David J. Barnes and Michael Kolling.  Modified by David Dobervich 2007-2013.
  * @version 2006.03.30
  */
-public class Shrek implements Serializable {
+public class Shrek extends Animal {
 	// Characteristics shared by all foxes (static fields).
-	private static final int BREEDING_AGE = 3;
-	// The age to which a shrek can live.
-	private static final int MAX_AGE = 100;
-	// The likelihood of a shrek breeding.
-	private static final double BREEDING_PROBABILITY = 0.05; //0.15
+//	private static final int BREEDING_AGE = 3;
+//	// The age to which a shrek can live.
+//	private static final int MAX_AGE = 100;
+//	// The likelihood of a shrek breeding.
+//	private static final double BREEDING_PROBABILITY = 0.05; //0.15
 	// The maximum number of births.
 	private static final int MAX_LITTER_SIZE = 10;
 	// The food value of a single rabbit. In effect, this is the
@@ -40,7 +40,8 @@ public class Shrek implements Serializable {
 	 * @param startWithRandomAge
 	 *            If true, the shrek will have random age and hunger level.
 	 */
-	public Shrek(boolean startWithRandomAge) {
+	public Shrek(boolean startWithRandomAge, int BREEDING_AGE, int MAX_AGE, double BREEDING_PROBABILITY) {
+		super(BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY);
 		age = 0;
 		alive = true;
 		if (startWithRandomAge) {
@@ -70,7 +71,7 @@ public class Shrek implements Serializable {
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			for (int b = 0; b < births; b++) {
-				Shrek newShrek = new Shrek(false);
+				Shrek newShrek = new Shrek(false, 3, 100, 0.05);
 				newShrek.setFoodLevel(this.foodLevel);
 				babyShrekStorage.add(newShrek);
 				Location loc = updatedField.randomAdjacentLocation(location);

@@ -9,14 +9,14 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling.  Modified by David Dobervich 2007-2013.
  * @version 2006.03.30
  */
-public class Fox implements Serializable {
+public class Fox extends Animal {
 	// Characteristics shared by all foxes (static fields).
-	private static final int BREEDING_AGE = 3;
-	// The age to which a fox can live.
-	private static final int MAX_AGE = 50;
-	// The likelihood of a fox breeding.
-	private static final double BREEDING_PROBABILITY = 0.15; //0.15
-	// The maximum number of births.
+//	private static final int BREEDING_AGE = 3;
+//	// The age to which a fox can live.
+//	private static final int MAX_AGE = 50;
+//	// The likelihood of a fox breeding.
+//	private static final double BREEDING_PROBABILITY = 0.15; //0.15
+//	// The maximum number of births.
 	private static final int MAX_LITTER_SIZE = 10;
 	// The food value of a single rabbit. In effect, this is the
 	// number of steps a fox can go before it has to eat again.
@@ -41,7 +41,8 @@ public class Fox implements Serializable {
 	 * @param startWithRandomAge
 	 *            If true, the fox will have random age and hunger level.
 	 */
-	public Fox(boolean startWithRandomAge) {
+	public Fox(boolean startWithRandomAge, int BREEDING_AGE, int MAX_AGE, double BREEDING_PROBABILITY) {
+		super(BREEDING_AGE,MAX_AGE,BREEDING_PROBABILITY);
 		age = 0;
 		alive = true;
 		if (startWithRandomAge) {
@@ -71,7 +72,7 @@ public class Fox implements Serializable {
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			for (int b = 0; b < births; b++) {
-				Fox newFox = new Fox(false);
+				Fox newFox = new Fox(false,3, 50, 0.15);
 				newFox.setFoodLevel(this.foodLevel);
 				babyFoxStorage.add(newFox);
 				Location loc = updatedField.randomAdjacentLocation(location);

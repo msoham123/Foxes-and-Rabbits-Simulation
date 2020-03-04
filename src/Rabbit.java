@@ -9,15 +9,8 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling.  Modified by David Dobervich 2007-2013
  * @version 2006.03.30
  */
-public class Rabbit implements Serializable {
-	private static final int BREEDING_AGE = 5;
-	
-    // The age to which all rabbits can live.
-    private static final int MAX_AGE = 30;
-    
-    // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.6; //0.06
-    
+public class Rabbit extends Animal {
+
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     
@@ -37,8 +30,9 @@ public class Rabbit implements Serializable {
      * 
      * @param startWithRandomAge If true, the rabbit will have a random age.
      */
-    public Rabbit(boolean startWithRandomAge)
+    public Rabbit(boolean startWithRandomAge, int BREEDING_AGE, int MAX_AGE, double BREEDING_PROBABILITY)
     {
+        super(BREEDING_AGE,MAX_AGE,BREEDING_PROBABILITY);
         age = 0;
         alive = true;
         if(startWithRandomAge) {
@@ -58,7 +52,7 @@ public class Rabbit implements Serializable {
         if(alive) {
             int births = breed();
             for(int b = 0; b < births; b++) {
-                Rabbit newRabbit = new Rabbit(false);
+                Rabbit newRabbit = new Rabbit(false, 5, 30, 0.6);
                 babyRabbitStorage.add(newRabbit);
                 Location loc = updatedField.randomAdjacentLocation(location);
                 newRabbit.setLocation(loc);
