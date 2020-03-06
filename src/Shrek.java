@@ -8,42 +8,12 @@ import java.util.List;
  * @version 2006.03.30
  */
 public class Shrek extends Animal {
-	// Characteristics shared by all foxes (static fields).
-//	private static final int BREEDING_AGE = 3;
-//	// The age to which a shrek can live.
-//	private static final int MAX_AGE = 100;
-//	// The likelihood of a shrek breeding.
-//	private static final double BREEDING_PROBABILITY = 0.05; //0.15
-	// The maximum number of births.
-	private static final int MAX_LITTER_SIZE = 10;
-	// The food value of a single rabbit. In effect, this is the
-	// number of steps a shrek can go before it has to eat again.
 	private static final int RABBIT_FOOD_VALUE = 6;
 	private static final int FOX_FOOD_VALUE = 2;
-	// A shared random number generator to control breeding.
-
-	// Individual characteristics (instance fields).
-
-	// The shrek's age.
-	private int age;
-	// Whether the shrek is alive or not.
-	private boolean alive;
-	// The shrek's position
-	private Location location;
-	// The shrek's food level, which is increased by eating rabbits.
 	private int foodLevel;
 
-	/**
-	 * Create a shrek. A shrek can be created as a new born (age zero and not
-	 * hungry) or with random age.
-	 *
-	 * @param startWithRandomAge
-	 *            If true, the shrek will have random age and hunger level.
-	 */
-	public Shrek(boolean startWithRandomAge, int BREEDING_AGE, int MAX_AGE, double BREEDING_PROBABILITY) {
-		super(BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY);
-		age = 0;
-		alive = true;
+	public Shrek(boolean startWithRandomAge, int BREEDING_AGE, int MAX_AGE, double BREEDING_PROBABILITY, int MAX_LITTER_SIZE) {
+		super(BREEDING_AGE, MAX_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
 		if (startWithRandomAge) {
 			age = (int)(Math.random()*MAX_AGE);
 			foodLevel = (int)(Math.random()*RABBIT_FOOD_VALUE);
@@ -53,17 +23,6 @@ public class Shrek extends Animal {
 		}
 	}
 
-	/**
-	 * This is what the shrek does most of the time: it hunts for rabbits. In the
-	 * process, it might breed, die of hunger, or die of old age.
-	 * 
-	 * @param currentField
-	 *            The field currently occupied.
-	 * @param updatedField
-	 *            The field to transfer to.
-	 * @param babyShrekStorage
-	 *            A list to add newly born foxes to.
-	 */
 	public void hunt(Field currentField, Field updatedField, List<Shrek> babyShrekStorage) {
 		incrementAge();
 		incrementHunger();
@@ -71,7 +30,7 @@ public class Shrek extends Animal {
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			for (int b = 0; b < births; b++) {
-				Shrek newShrek = new Shrek(false, 3, 100, 0.05);
+				Shrek newShrek = new Shrek(false, 3, 100, 0.05,10);
 				newShrek.setFoodLevel(this.foodLevel);
 				babyShrekStorage.add(newShrek);
 				Location loc = updatedField.randomAdjacentLocation(location);
@@ -94,19 +53,6 @@ public class Shrek extends Animal {
 		}
 	}
 
-	/**
-	 * Increase the age. This could result in the shrek's death.
-	 */
-	private void incrementAge() {
-		age++;
-		if (age > MAX_AGE) {
-			alive = false;
-		}
-	}
-
-	/**
-	 * Make this shrek more hungry. This could result in the shrek's death.
-	 */
 	private void incrementHunger() {
 		foodLevel--;
 		if (foodLevel <= 0) {
@@ -114,16 +60,6 @@ public class Shrek extends Animal {
 		}
 	}
 
-	/**
-	 * Tell the shrek to look for rabbits adjacent to its current location. Only
-	 * the first live rabbit is eaten.
-	 * 
-	 * @param field
-	 *            The field in which it must look.
-	 * @param location
-	 *            Where in the field it is located.
-	 * @return Where food was found, or null if it wasn't.
-	 */
 	private Location findFood(Field field, Location location) {
 		List<Location> adjacentLocations = field.adjacentLocations(location);
 
@@ -149,56 +85,6 @@ public class Shrek extends Animal {
 		return null;
 	}
 
-	/**
-	 * Generate a number representing the number of births, if it can breed.
-	 * 
-	 * @return The number of births (may be zero).
-	 */
-	private int breed() {
-		int numBirths = 0;
-		if (canBreed() && Math.random() <= BREEDING_PROBABILITY) {
-			numBirths = (int)(Math.random()*MAX_LITTER_SIZE) + 1;
-		}
-		return numBirths;
-	}
-
-	/**
-	 * A shrek can breed if it has reached the breeding age.
-	 */
-	private boolean canBreed() {
-		return age >= BREEDING_AGE;
-	}
-
-	/**
-	 * Check whether the shrek is alive or not.
-	 * 
-	 * @return True if the shrek is still alive.
-	 */
-	public boolean isAlive() {
-		return alive;
-	}
-
-	/**
-	 * Set the animal's location.
-	 * 
-	 * @param row
-	 *            The vertical coordinate of the location.
-	 * @param col
-	 *            The horizontal coordinate of the location.
-	 */
-	public void setLocation(int row, int col) {
-		this.location = new Location(row, col);
-	}
-
-	/**
-	 * Set the shrek's location.
-	 * 
-	 * @param location
-	 *            The shrek's location.
-	 */
-	public void setLocation(Location location) {
-		this.location = location;
-	}
 
 	public void setFoodLevel(int fl) {
 		this.foodLevel = fl;
