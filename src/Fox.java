@@ -27,7 +27,7 @@ public class Fox extends Animal {
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			for (int b = 0; b < births; b++) {
-				Fox newFox = new Fox(false,3, 50, 0.15, 10);
+				Fox newFox = new Fox(false,3, 50, 0.21, 11);
 				newFox.setFoodLevel(this.foodLevel);
 				babyFoxStorage.add(newFox);
 				Location loc = updatedField.randomAdjacentLocation(location);

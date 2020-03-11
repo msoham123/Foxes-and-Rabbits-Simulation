@@ -246,12 +246,12 @@ public class Simulator {
 		for (int row = 0; row < field.getHeight(); row++) {
 			for (int col = 0; col < field.getWidth(); col++) {
 				if (rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
-					Fox fox = new Fox(true, 3, 50, 0.15,10);
+					Fox fox = new Fox(true, 3, 50, 0.21,11);
 					fox.setLocation(col, row);
 					foxList.add(fox);
 					field.put(fox, col, row);
 				} else if (rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
-					Rabbit rabbit = new Rabbit(true, 5, 30, 0.6,5);
+					Rabbit rabbit = new Rabbit(true, 3, 30, 0.6,5);
 					rabbit.setLocation(col, row);
 					rabbitList.add(rabbit);
 					field.put(rabbit, col, row);

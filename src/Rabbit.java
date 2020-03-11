@@ -20,7 +20,7 @@ public class Rabbit extends Animal {
         if(alive) {
             int births = breed();
             for(int b = 0; b < births; b++) {
-                Rabbit newRabbit = new Rabbit(false, 5, 30, 0.6, 5);
+                Rabbit newRabbit = new Rabbit(false, 3, 30, 0.6, 5);
                 babyRabbitStorage.add(newRabbit);
                 Location loc = updatedField.randomAdjacentLocation(location);
                 newRabbit.setLocation(loc);
