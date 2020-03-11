@@ -4,6 +4,7 @@
  */
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,31 +15,35 @@ import java.util.List;
  * This class not required to actually run the simulator
  */
 public class Record implements Serializable{
-    private ArrayList<Rabbit> rabbits;
-    private ArrayList<Fox> foxes;
+    private ArrayList<Animal> animals;
     private int steps;
     
     // The current state of the field.
     private Field field;
     
-	public Record(ArrayList<Rabbit> r, ArrayList<Fox> f, Field field, int step){
-		setRabbits(r);
-		setFoxes(f);
+	public Record(ArrayList<Animal> a, Field field, int step){
+		setAnimals(a);
 		setField(field);
 		setSteps(step);
 	}
-	public ArrayList<Rabbit> getRabbits() {
-		return rabbits;
-	}
-	public void setRabbits(ArrayList<Rabbit> rabbits) {
-		this.rabbits = rabbits;
-	}
-	public ArrayList<Fox> getFoxes() {
-		return foxes;
-	}
-	public void setFoxes(ArrayList<Fox> foxes) {
-		this.foxes = foxes;
-	}
+//	public ArrayList<Rabbit> getRabbits() {
+//		return rabbits;
+//	}
+//	public void setRabbits(ArrayList<Rabbit> rabbits) {
+//		this.rabbits = rabbits;
+//	}
+//	public ArrayList<Fox> getFoxes() {
+//		return foxes;
+//	}
+//	public void setFoxes(ArrayList<Fox> foxes) {
+//		this.foxes = foxes;
+//	}
+
+	public void setAnimals(ArrayList<Animal> animals) {this.animals = animals;}
+	public ArrayList<Animal> getAnimals(){return animals;}
+
+
+
 	public Field getField() {
 		return field;
 	}

@@ -1,6 +1,7 @@
 import java.io.Serializable;
+import java.util.List;
 
-public class Animal implements Serializable {
+public abstract class Animal implements Serializable {
     protected int BREEDING_AGE;
     protected int MAX_AGE;
     protected double BREEDING_PROBABILITY; //0.06
@@ -48,5 +49,7 @@ public class Animal implements Serializable {
     protected void setLocation(Location location) {
         this.location = location;
     }
+
+    public abstract void act(Field currentField, Field updatedField, List<Animal> newAnimals);
 
 }

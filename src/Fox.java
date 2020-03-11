@@ -20,35 +20,9 @@ public class Fox extends Animal {
 		}
 	}
 
-	public void hunt(Field currentField, Field updatedField, List<Fox> babyFoxStorage) {
-		incrementAge();
-		incrementHunger();
-		if (alive) {
-			// New foxes are born into adjacent locations.
-			int births = breed();
-			for (int b = 0; b < births; b++) {
-				Fox newFox = new Fox(false,3, 50, 0.21, 11);
-				newFox.setFoodLevel(this.foodLevel);
-				babyFoxStorage.add(newFox);
-				Location loc = updatedField.randomAdjacentLocation(location);
-				newFox.setLocation(loc);
-				updatedField.put(newFox, loc);
-			}
-			// Move towards the source of food if found.
-			Location newLocation = findFood(currentField, location);
-			if (newLocation == null) { // no food found - move randomly
-				newLocation = updatedField.freeAdjacentLocation(location);
-			}
-			if (newLocation != null) {
-				setLocation(newLocation);
-				updatedField.put(this, newLocation);
-			} else {
-				// can neither move nor stay - overcrowding - all locations
-				// taken
-				alive = false;
-			}
-		}
-	}
+//	public void hunt(Field currentField, Field updatedField, List<Fox> babyFoxStorage) {
+//
+//	}
 
 	private void incrementHunger() {
 		foodLevel--;
@@ -84,5 +58,36 @@ public class Fox extends Animal {
 	public void setEaten()
 	{
 		alive = false;
+	}
+
+	@Override
+	public void act(Field currentField, Field updatedField, List<Animal> newAnimals) {
+		incrementAge();
+		incrementHunger();
+		if (alive) {
+			// New foxes are born into adjacent locations.
+			int births = breed();
+			for (int b = 0; b < births; b++) {
+				Fox newFox = new Fox(false,3, 50, 0.21, 11);
+				newFox.setFoodLevel(this.foodLevel);
+				newAnimals.add(newFox);
+				Location loc = updatedField.randomAdjacentLocation(location);
+				newFox.setLocation(loc);
+				updatedField.put(newFox, loc);
+			}
+			// Move towards the source of food if found.
+			Location newLocation = findFood(currentField, location);
+			if (newLocation == null) { // no food found - move randomly
+				newLocation = updatedField.freeAdjacentLocation(location);
+			}
+			if (newLocation != null) {
+				setLocation(newLocation);
+				updatedField.put(this, newLocation);
+			} else {
+				// can neither move nor stay - overcrowding - all locations
+				// taken
+				alive = false;
+			}
+		}
 	}
 }

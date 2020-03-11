@@ -36,9 +36,11 @@ public class Simulator {
 
 	// Lists of animals in the field. Separate lists are kept for ease of
 	// iteration.
-	private ArrayList<Rabbit> rabbitList;
-	private ArrayList<Fox> foxList;
-	private ArrayList<Shrek> shrekList;
+//	private ArrayList<Rabbit> rabbitList;
+//	private ArrayList<Fox> foxList;
+//	private ArrayList<Shrek> shrekList;
+
+	private ArrayList<Animal> animalList;
 
 	// The current state of the field.
 	private Field field;
@@ -61,21 +63,12 @@ public class Simulator {
 	// Object to keep track of statistics of animal populations
 	private FieldStats stats;
 
-	/**
-	 * Construct a simulation field with default size.
-	 */
+
 	public Simulator() {
 		this(DEFAULT_HEIGHT, DEFAULT_WIDTH);
 	}
 
-	/**
-	 * Create a simulation field with the given size.
-	 * 
-	 * @param height
-	 *          Height of the field. Must be greater than zero.
-	 * @param width
-	 *          Width of the field. Must be greater than zero.
-	 */
+
 	public Simulator(int width, int height) {
 		if (width <= 0 || height <= 0) {
 			System.out.println("The dimensions must be greater than zero.");
@@ -84,9 +77,7 @@ public class Simulator {
 			width = DEFAULT_WIDTH;
 		}
 
-		rabbitList = new ArrayList<Rabbit>();
-		foxList = new ArrayList<Fox>();
-		shrekList = new ArrayList<Shrek>();
+		animalList = new ArrayList<Animal>();
 		field = new Field(width, height);
 		updatedField = new Field(width, height);
 		stats = new FieldStats();
@@ -149,54 +140,52 @@ public class Simulator {
 	public void simulateOneStep() {
 		step++;
 
-		// New List to hold newborn rabbitList.
-		ArrayList<Rabbit> babyRabbitStorage = new ArrayList<Rabbit>();
 
-		// Loop through all Rabbits. Let each run around.
-		for (int i = 0; i < rabbitList.size(); i++) {
-			Rabbit rabbit = rabbitList.get(i);
-			rabbit.run(updatedField, babyRabbitStorage);
-			if (!rabbit.isAlive()) {
-				rabbitList.remove(i);
+		ArrayList<Animal> babyAnimalStorage = new ArrayList<Animal>();
+		for(int i = 0; i<animalList.size();i++){
+			Animal myAnimal = animalList.get(i);
+			myAnimal.act(field, updatedField, babyAnimalStorage);
+			if(!myAnimal.isAlive()){
+				animalList.remove(i);
 				i--;
 			}
 		}
+		animalList.addAll(babyAnimalStorage);
 
-		// Add new born rabbitList to the main list of rabbitList.
-		rabbitList.addAll(babyRabbitStorage);
-
-		// Create new list for newborn foxList.
-		ArrayList<Fox> babyFoxStorage = new ArrayList<Fox>();
-
-		// Loop through Foxes; let each run around.
-		for (int i = 0; i < foxList.size(); i++) {
-			Fox fox = foxList.get(i);
-			fox.hunt(field, updatedField, babyFoxStorage);
-			if (!fox.isAlive()) {
-				foxList.remove(i);
-				i--;
-			}
-		}
-
-		// Add new born foxList to the main list of foxList.
-		foxList.addAll(babyFoxStorage);
-
-		//Create new list for newborn shrekList
-
-		ArrayList<Shrek> babyShrekStorage = new ArrayList<Shrek>();
-
-		// Loop through Shreks; let each run around.
-		for (int i = 0; i < shrekList.size(); i++) {
-			Shrek shrek = shrekList.get(i);
-			shrek.hunt(field, updatedField, babyShrekStorage);
-			if (!shrek.isAlive()) {
-				shrekList.remove(i);
-				i--;
-			}
-		}
-
-		// Add new born foxList to the main list of foxList.
-		shrekList.addAll(babyShrekStorage);
+//		ArrayList<Rabbit> babyRabbitStorage = new ArrayList<Rabbit>();
+//		for (int i = 0; i < rabbitList.size(); i++) {
+//			Rabbit rabbit = rabbitList.get(i);
+//			rabbit.run(updatedField, babyRabbitStorage);
+//			if (!rabbit.isAlive()) {
+//				rabbitList.remove(i);
+//				i--;
+//			}
+//		}
+//		rabbitList.addAll(babyRabbitStorage);
+//
+//
+//		ArrayList<Fox> babyFoxStorage = new ArrayList<Fox>();
+//		for (int i = 0; i < foxList.size(); i++) {
+//			Fox fox = foxList.get(i);
+//			fox.hunt(field, updatedField, babyFoxStorage);
+//			if (!fox.isAlive()) {
+//				foxList.remove(i);
+//				i--;
+//			}
+//		}
+//		foxList.addAll(babyFoxStorage);
+//
+//
+//		ArrayList<Shrek> babyShrekStorage = new ArrayList<Shrek>();
+//		for (int i = 0; i < shrekList.size(); i++) {
+//			Shrek shrek = shrekList.get(i);
+//			shrek.hunt(field, updatedField, babyShrekStorage);
+//			if (!shrek.isAlive()) {
+//				shrekList.remove(i);
+//				i--;
+//			}
+//		}
+//		shrekList.addAll(babyShrekStorage);
 
 		// Swap the field and updatedField at the end of the step.
 		Field temp = field;
@@ -220,9 +209,7 @@ public class Simulator {
 	 */
 	public void reset() {
 		step = 0;
-		rabbitList.clear();
-		foxList.clear();
-		shrekList.clear();
+		animalList.clear();
 		field.clear();
 		updatedField.clear();
 		initializeBoard(field);
@@ -248,24 +235,23 @@ public class Simulator {
 				if (rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
 					Fox fox = new Fox(true, 3, 50, 0.21,11);
 					fox.setLocation(col, row);
-					foxList.add(fox);
+					animalList.add(fox);
 					field.put(fox, col, row);
 				} else if (rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
 					Rabbit rabbit = new Rabbit(true, 3, 30, 0.6,5);
 					rabbit.setLocation(col, row);
-					rabbitList.add(rabbit);
+					animalList.add(rabbit);
 					field.put(rabbit, col, row);
 				} else if (rand.nextDouble() <= SHREK_CREATION_PROBABILITY){
 					Shrek shrek = new Shrek(true,3, 100, 0.05, 10);
 					shrek.setLocation(col, row);
-					shrekList.add(shrek);
+					animalList.add(shrek);
 					field.put(shrek, col, row);
 				}
 			}
 		}
-		Collections.shuffle(rabbitList);
-		Collections.shuffle(foxList);
-		Collections.shuffle(shrekList);
+		Collections.shuffle(animalList);
+
 	}
 
 	private boolean isViable() {
@@ -289,7 +275,7 @@ public class Simulator {
 
 	public void writeToFile(String writefile) {
 		try {
-			Record r = new Record(rabbitList, foxList, this.field, this.step);
+			Record r = new Record(animalList, this.field, this.step);
 			FileOutputStream outStream = new FileOutputStream(writefile);
 			ObjectOutputStream objectOutputFile = new ObjectOutputStream(outStream);
 			objectOutputFile.writeObject(r);
@@ -304,8 +290,9 @@ public class Simulator {
 			FileInputStream inputStream = new FileInputStream(readfile);
 			ObjectInputStream objectInputFile = new ObjectInputStream(inputStream);
 			Record r = (Record) objectInputFile.readObject();
-			setFoxList(r.getFoxes());
-			setRabbitList(r.getRabbits());
+//			setFoxList(r.getFoxes());
+//			setRabbitList(r.getRabbits());
+			setAnimalList(r.getAnimals());
 			setField(r.getField());
 			setStep(r.getSteps());
 			objectInputFile.close();
@@ -315,58 +302,40 @@ public class Simulator {
 		}
 	}
 
-	/***
-	 * Set the step number of the simulator.  (Used for restoring saved games).
-	 * @param steps
-	 */
+
 	private void setStep(int steps) {
 		step = steps;
 	}
 
-	/***
-	 * Sets the field of the simulator.  (Used for restoring saved games).
-	 * @param newField
-	 */
+
 	private void setField(Field newField) {
 		field = newField;
 	}
 
-	/***
-	 * Sets the list of rabbits.  Used for restoring saved games.
-	 * @param newRabbitList
-	 */
-	private void setRabbitList(ArrayList<Rabbit> newRabbitList) {
-		rabbitList = newRabbitList;
-	}
 
-	/***
-	 * Sets the list of foxes.  Used for restoring saved games.
-	 * @param newFoxesList
-	 */
-	private void setFoxList(ArrayList<Fox> newFoxesList) {
-		foxList = newFoxesList;
-	}
+//	private void setRabbitList(ArrayList<Rabbit> newRabbitList) {
+//		rabbitList = newRabbitList;
+//	}
+//	private void setFoxList(ArrayList<Fox> newFoxesList) {
+//		foxList = newFoxesList;
+//	}
+//	private void setShrekList(ArrayList<Shrek> newShrekList) {shrekList = newShrekList; }
 
+	private void setAnimalList(ArrayList<Animal> newAnimalList) {animalList = newAnimalList;}
 
-	private void setShrekList(ArrayList<Shrek> newShrekList) {shrekList = newShrekList; }
-
-	// Perform an action when the mouse was clicked.
-	// parameters are the x, y screen coordinates the user clicked on.
-	// Note: you probably want to modify handleMouseClick(Location) which
-	// gives you the location they clicked on in the grid.
 	public void handleMouseClick(float mouseX, float mouseY) {
-		Location loc = view.gridLocationAt(mouseX, mouseY); // get grid at
-		// click.
+		Location loc = view.gridLocationAt(mouseX, mouseY);
 
 		for (int x = loc.getCol() - 8; x < loc.getCol() + 8; x++) {
 			for (int y = loc.getRow() - 8; y < loc.getRow() + 8; y++) {
 				Location locToCheck = new Location(x, y);
 				if (field.isInGrid(locToCheck)) {
 					Object animal = field.getObjectAt(locToCheck);
-					if (animal instanceof Rabbit)
-						rabbitList.remove((Rabbit) animal);
-					if (animal instanceof Fox)
-						foxList.remove((Fox) animal);
+					animalList.remove(animal);
+//					if (animal instanceof Rabbit)
+//						rabbitList.remove((Rabbit) animal);
+//					if (animal instanceof Fox)
+//						foxList.remove((Fox) animal);
 					field.put(null, locToCheck);
 					updatedField.put(null, locToCheck);
 				}

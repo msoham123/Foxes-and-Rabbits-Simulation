@@ -23,35 +23,9 @@ public class Shrek extends Animal {
 		}
 	}
 
-	public void hunt(Field currentField, Field updatedField, List<Shrek> babyShrekStorage) {
-		incrementAge();
-		incrementHunger();
-		if (alive) {
-			// New foxes are born into adjacent locations.
-			int births = breed();
-			for (int b = 0; b < births; b++) {
-				Shrek newShrek = new Shrek(false, 3, 100, 0.05,10);
-				newShrek.setFoodLevel(this.foodLevel);
-				babyShrekStorage.add(newShrek);
-				Location loc = updatedField.randomAdjacentLocation(location);
-				newShrek.setLocation(loc);
-				updatedField.put(newShrek, loc);
-			}
-			// Move towards the source of food if found.
-			Location newLocation = findFood(currentField, location);
-			if (newLocation == null) { // no food found - move randomly
-				newLocation = updatedField.freeAdjacentLocation(location);
-			}
-			if (newLocation != null) {
-				setLocation(newLocation);
-				updatedField.put(this, newLocation);
-			} else {
-				// can neither move nor stay - overcrowding - all locations
-				// taken
-				alive = false;
-			}
-		}
-	}
+//	public void hunt(Field currentField, Field updatedField, List<Shrek> babyShrekStorage) {
+//
+//	}
 
 	private void incrementHunger() {
 		foodLevel--;
@@ -88,5 +62,36 @@ public class Shrek extends Animal {
 
 	public void setFoodLevel(int fl) {
 		this.foodLevel = fl;
+	}
+
+	@Override
+	public void act(Field currentField, Field updatedField, List<Animal> newAnimals) {
+		incrementAge();
+		incrementHunger();
+		if (alive) {
+			// New foxes are born into adjacent locations.
+			int births = breed();
+			for (int b = 0; b < births; b++) {
+				Shrek newShrek = new Shrek(false, 3, 100, 0.05,10);
+				newShrek.setFoodLevel(this.foodLevel);
+				newAnimals.add(newShrek);
+				Location loc = updatedField.randomAdjacentLocation(location);
+				newShrek.setLocation(loc);
+				updatedField.put(newShrek, loc);
+			}
+			// Move towards the source of food if found.
+			Location newLocation = findFood(currentField, location);
+			if (newLocation == null) { // no food found - move randomly
+				newLocation = updatedField.freeAdjacentLocation(location);
+			}
+			if (newLocation != null) {
+				setLocation(newLocation);
+				updatedField.put(this, newLocation);
+			} else {
+				// can neither move nor stay - overcrowding - all locations
+				// taken
+				alive = false;
+			}
+		}
 	}
 }

@@ -14,14 +14,24 @@ public class Rabbit extends Animal {
     }
     
 
-    public void run(Field updatedField, List<Rabbit> babyRabbitStorage)
+//    public void run(Field updatedField, List<Rabbit> babyRabbitStorage) {
+//
+//    }
+    
+
+    public void setEaten()
     {
+        alive = false;
+    }
+
+    @Override
+    public void act(Field currentField, Field updatedField, List<Animal> newAnimals) {
         incrementAge();
         if(alive) {
             int births = breed();
             for(int b = 0; b < births; b++) {
                 Rabbit newRabbit = new Rabbit(false, 3, 30, 0.6, 5);
-                babyRabbitStorage.add(newRabbit);
+                newAnimals.add(newRabbit);
                 Location loc = updatedField.randomAdjacentLocation(location);
                 newRabbit.setLocation(loc);
                 updatedField.put(newRabbit, loc);
@@ -38,11 +48,4 @@ public class Rabbit extends Animal {
             }
         }
     }
-    
-
-    public void setEaten()
-    {
-        alive = false;
-    }
-
 }
